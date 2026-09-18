@@ -1,6 +1,6 @@
 # Professional Selenium Java Framework
 
-A maintainable Selenium framework for IntelliJ IDEA and Maven using Java 17, JUnit 5, Page Object Model, thread-safe WebDriver management, explicit waits, configuration profiles, logging, and failure screenshots.
+A maintainable Selenium framework for IntelliJ IDEA and Maven using Java 21, JUnit 5, Page Object Model, thread-safe WebDriver management, explicit waits, configuration profiles, logging, and failure screenshots.
 
 ## Architecture
 
@@ -22,15 +22,25 @@ src/
 
 ## IntelliJ IDEA
 
-1. Open the repository in IntelliJ IDEA.
-2. Select **JDK 17** under **Project Structure → Project → SDK**.
-3. Open `pom.xml` and select **Load Maven Project**.
-4. Right-click `HomePageTest` and choose **Run**.
+1. Install a JDK 21 distribution, such as Temurin 21.
+2. Open the repository in IntelliJ IDEA.
+3. Select **JDK 21** under **Project Structure → Project → SDK**.
+4. Set the language level to **21**.
+5. Open `pom.xml` and select **Load Maven Project**.
+6. In **Settings → Build, Execution, Deployment → Build Tools → Maven**, ensure Maven uses JDK 21.
+7. Right-click `HomePageTest` and choose **Run**.
 
 ## Run
 
 ```bash
 mvn clean test
+```
+
+Verify the runtime first if needed:
+
+```bash
+java -version
+mvn -version
 ```
 
 Override configuration without changing source code:
