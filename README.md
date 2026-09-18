@@ -1,52 +1,27 @@
 # Professional Selenium + API Automation Framework
 
-Java 21, Selenium, TestNG, REST Assured, Maven, Page Object Model, explicit waits, logging, and failure screenshots.
+Reusable UI page objects are located under `src/main/java/com/nanda/automation/pages`:
 
-## Test layout
+- `BasePage` — common waits, clicks, typing, text, visibility, title, and URL methods.
+- `LoginPage` — reusable `login(username, password)` flow.
+- `HomePage` — post-login page actions and assertions.
 
-```text
-src/test/java/com/nanda/automation/
-├── api/
-│   ├── base/BaseApiTest.java
-│   └── tests/HealthApiTest.java
-├── base/BaseTest.java
-├── pages/HomePage.java
-└── tests/HomePageTest.java
+Example:
 
-src/test/resources/suites/
-├── smoke-suite.xml
-├── api-suite.xml
-└── regression-suite.xml
+```java
+LoginPage loginPage = new LoginPage(DriverManager.get());
+HomePage homePage = loginPage.login(Config.username(), Config.password());
+Assert.assertTrue(homePage.isDashboardDisplayed());
 ```
 
-UI tests and API tests are deliberately separated by package. Both use TestNG and can be run independently or together.
+Update the locators in `LoginPage` and `HomePage` to match your application. The default `https://example.com` URL is only a demo page and does not contain login controls.
 
-## Run in IntelliJ IDEA
-
-Open `pom.xml`, load Maven, select JDK 21, and right-click any TestNG class or suite XML file to run it.
-
-## Run with Maven
-
-```bash
-# Default: UI smoke suite
-mvn clean test
-
-# API suite
-mvn clean test -DsuiteXmlFile=src/test/resources/suites/api-suite.xml
-
-# UI smoke suite
-mvn clean test -DsuiteXmlFile=src/test/resources/suites/smoke-suite.xml
-
-# Full regression suite
-mvn clean test -DsuiteXmlFile=src/test/resources/suites/regression-suite.xml
-```
-
-Override endpoints and browser settings without editing code:
+Credentials should be supplied as Maven system properties or environment-backed IntelliJ run configuration values, not committed to source control:
 
 ```bash
 mvn clean test \
-  -DsuiteXmlFile=src/test/resources/suites/api-suite.xml \
-  -DapiBaseUrl=https://httpbin.org
+  -Dusername=your-user \
+  -Dpassword=your-password \
+  -DbaseUrl=https://your-application.example.com \
+  -Dheadless=false
 ```
-
-API screenshots are not applicable; failed API requests are logged by REST Assured. UI failure screenshots are written to `target/screenshots/`.
