@@ -1,55 +1,44 @@
-# Selenium Java Framework — IntelliJ IDEA
+# Professional Selenium Java Framework
 
-A Maven-based Selenium framework designed to run directly from IntelliJ IDEA or the command line.
+A maintainable Selenium framework for IntelliJ IDEA and Maven using Java 17, JUnit 5, Page Object Model, thread-safe WebDriver management, explicit waits, configuration profiles, logging, and failure screenshots.
 
-## Open in IntelliJ IDEA
+## Architecture
 
-1. Install **JDK 17+** and IntelliJ IDEA.
-2. Select **File → Open** and choose the repository folder.
+```text
+src/
+├── main/java/com/nanda/automation/
+│   ├── config/Config.java              configuration and system-property overrides
+│   ├── driver/DriverFactory.java       browser creation
+│   ├── driver/DriverManager.java       ThreadLocal WebDriver lifecycle
+│   ├── pages/BasePage.java             reusable page actions and waits
+│   └── utils/ScreenshotUtil.java       failure screenshot utility
+├── main/resources/log4j2.xml
+├── test/java/com/nanda/automation/
+│   ├── base/BaseTest.java              JUnit lifecycle and failure capture
+│   ├── pages/HomePage.java             page object
+│   └── tests/HomePageTest.java         test layer only
+└── test/resources/config.properties    default test configuration
+```
+
+## IntelliJ IDEA
+
+1. Open the repository in IntelliJ IDEA.
+2. Select **JDK 17** under **Project Structure → Project → SDK**.
 3. Open `pom.xml` and select **Load Maven Project**.
-4. Set **Project SDK** to JDK 17:
-   - **File → Project Structure → Project → SDK**
-   - Set **Language level** to 17.
-5. Let IntelliJ import Maven dependencies.
-6. Right-click `HomePageTest.java` and select **Run**.
+4. Right-click `HomePageTest` and choose **Run**.
 
-No manual driver download is required. WebDriverManager resolves the browser driver automatically.
-
-## Run from IntelliJ Maven panel
-
-Open the Maven tool window, then run:
-
-```text
-Lifecycle → clean → test
-```
-
-To pass properties, use **Run → Edit Configurations → Maven** and set:
-
-```text
-clean test -Dbrowser=chrome -DbaseUrl=https://example.com -Dheadless=true
-```
-
-## Run from terminal
+## Run
 
 ```bash
 mvn clean test
 ```
 
-## Supported properties
+Override configuration without changing source code:
 
-| Property | Default | Description |
-|---|---|---|
-| `browser` | `chrome` | `chrome`, `firefox`, or `edge` |
-| `baseUrl` | `https://example.com` | Application URL |
-| `headless` | `true` | Run without opening a browser window |
-
-## Project structure
-
-```text
-src/main/java     framework code, configuration, driver factory, base pages
-src/test/java     test base, page objects, test cases
-pom.xml           Maven dependencies and test configuration
-.editorconfig     consistent formatting in IntelliJ and other IDEs
+```bash
+mvn clean test -Dbrowser=chrome -Dheadless=false -DbaseUrl=https://example.com
 ```
 
-The project follows Maven conventions, so IntelliJ automatically recognizes `src/main` as production code and `src/test` as test code.
+Supported browsers: `chrome`, `firefox`, and `edge`.
+
+Screenshots from failed tests are saved in `target/screenshots/`.
