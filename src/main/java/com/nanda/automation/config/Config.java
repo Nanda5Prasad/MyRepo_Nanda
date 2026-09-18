@@ -12,6 +12,10 @@ public final class Config {
         return value("baseUrl", "https://example.com");
     }
 
+    public static String loginUrl() {
+        return value("loginUrl", baseUrl());
+    }
+
     public static String apiBaseUrl() {
         return value("apiBaseUrl", "https://httpbin.org");
     }
@@ -22,6 +26,30 @@ public final class Config {
 
     public static String password() {
         return value("password", "change-me");
+    }
+
+    public static String usernameLocator() {
+        return value("usernameLocator", "username");
+    }
+
+    public static String passwordLocator() {
+        return value("passwordLocator", "password");
+    }
+
+    public static String loginButtonLocator() {
+        return value("loginButtonLocator", "loginBtn");
+    }
+
+    public static String loginPageMarkerLocator() {
+        return value("loginPageMarkerLocator", "login-form");
+    }
+
+    public static String homeHeadingLocator() {
+        return value("homeHeadingLocator", "h1");
+    }
+
+    public static String dashboardMarkerLocator() {
+        return value("dashboardMarkerLocator", "dashboard");
     }
 
     public static boolean headless() {

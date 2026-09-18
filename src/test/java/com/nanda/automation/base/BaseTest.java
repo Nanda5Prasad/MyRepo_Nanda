@@ -19,6 +19,10 @@ public abstract class BaseTest {
         DriverManager.get().get(Config.baseUrl());
     }
 
+    protected void openLoginPage() {
+        DriverManager.get().get(Config.loginUrl());
+    }
+
     @AfterMethod
     public void tearDown(ITestResult result) {
         if (result.getStatus() == ITestResult.FAILURE) {
