@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Smoke Suite" verbose="1">
+    <test name="UI Smoke Tests">
+        <groups><run><include name="smoke"/></run></groups>
+        <classes>
+            <class name="com.nanda.automation.tests.HomePageTest"/>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Regression Suite" verbose="1" parallel="classes" thread-count="2">
+    <test name="All UI and API Tests">
+        <classes>
+            <class name="com.nanda.automation.tests.HomePageTest"/>
+        </classes>
+        <packages>
+            <package name="com.nanda.automation.api.tests"/>
+        </packages>
+    </test>
+</suite>

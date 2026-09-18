@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="API Suite" verbose="1">
+    <test name="API Tests">
+        <groups><run><include name="api"/></run></groups>
+        <packages>
+            <package name="com.nanda.automation.api.tests"/>
+        </packages>
+    </test>
+</suite>

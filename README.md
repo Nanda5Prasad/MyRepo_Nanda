@@ -1,54 +1,52 @@
-# Professional Selenium Java Framework
+# Professional Selenium + API Automation Framework
 
-A maintainable Selenium framework for IntelliJ IDEA and Maven using Java 21, JUnit 5, Page Object Model, thread-safe WebDriver management, explicit waits, configuration profiles, logging, and failure screenshots.
+Java 21, Selenium, TestNG, REST Assured, Maven, Page Object Model, explicit waits, logging, and failure screenshots.
 
-## Architecture
+## Test layout
 
 ```text
-src/
-├── main/java/com/nanda/automation/
-│   ├── config/Config.java              configuration and system-property overrides
-│   ├── driver/DriverFactory.java       browser creation
-│   ├── driver/DriverManager.java       ThreadLocal WebDriver lifecycle
-│   ├── pages/BasePage.java             reusable page actions and waits
-│   └── utils/ScreenshotUtil.java       failure screenshot utility
-├── main/resources/log4j2.xml
-├── test/java/com/nanda/automation/
-│   ├── base/BaseTest.java              JUnit lifecycle and failure capture
-│   ├── pages/HomePage.java             page object
-│   └── tests/HomePageTest.java         test layer only
-└── test/resources/config.properties    default test configuration
+src/test/java/com/nanda/automation/
+├── api/
+│   ├── base/BaseApiTest.java
+│   └── tests/HealthApiTest.java
+├── base/BaseTest.java
+├── pages/HomePage.java
+└── tests/HomePageTest.java
+
+src/test/resources/suites/
+├── smoke-suite.xml
+├── api-suite.xml
+└── regression-suite.xml
 ```
 
-## IntelliJ IDEA
+UI tests and API tests are deliberately separated by package. Both use TestNG and can be run independently or together.
 
-1. Install a JDK 21 distribution, such as Temurin 21.
-2. Open the repository in IntelliJ IDEA.
-3. Select **JDK 21** under **Project Structure → Project → SDK**.
-4. Set the language level to **21**.
-5. Open `pom.xml` and select **Load Maven Project**.
-6. In **Settings → Build, Execution, Deployment → Build Tools → Maven**, ensure Maven uses JDK 21.
-7. Right-click `HomePageTest` and choose **Run**.
+## Run in IntelliJ IDEA
 
-## Run
+Open `pom.xml`, load Maven, select JDK 21, and right-click any TestNG class or suite XML file to run it.
+
+## Run with Maven
 
 ```bash
+# Default: UI smoke suite
 mvn clean test
+
+# API suite
+mvn clean test -DsuiteXmlFile=src/test/resources/suites/api-suite.xml
+
+# UI smoke suite
+mvn clean test -DsuiteXmlFile=src/test/resources/suites/smoke-suite.xml
+
+# Full regression suite
+mvn clean test -DsuiteXmlFile=src/test/resources/suites/regression-suite.xml
 ```
 
-Verify the runtime first if needed:
+Override endpoints and browser settings without editing code:
 
 ```bash
-java -version
-mvn -version
+mvn clean test \
+  -DsuiteXmlFile=src/test/resources/suites/api-suite.xml \
+  -DapiBaseUrl=https://httpbin.org
 ```
 
-Override configuration without changing source code:
-
-```bash
-mvn clean test -Dbrowser=chrome -Dheadless=false -DbaseUrl=https://example.com
-```
-
-Supported browsers: `chrome`, `firefox`, and `edge`.
-
-Screenshots from failed tests are saved in `target/screenshots/`.
+API screenshots are not applicable; failed API requests are logged by REST Assured. UI failure screenshots are written to `target/screenshots/`.
